@@ -3,7 +3,7 @@
 
 -- Budu pracovat s tabulkou mezd (czechia_payroll) i potravin (czechia_price).
 
--- Najdříve určím první a poslední srovnatelné období: 
+-- Nejdříve určím první a poslední srovnatelné období: 
 -- V tabulce mezd mám čtvrtletí a roky, v tabulce potravin týdny (date_from, date_to).
 -- Budu tedy porovnávat roky.
 

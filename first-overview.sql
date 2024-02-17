@@ -28,8 +28,8 @@ DESCRIBE czechia_payroll_unit;
 -- code: 200 = name: Kč
 -- code: 80403 = name: tis. osob (tis. os.)
 DESCRIBE czechia_payroll_calculation;
--- code: 100 = name: fyzický
--- code: 200 = name: přepočtený
+-- code: 100 = name: fyzický = vč. částečných úvazků
+-- code: 200 = name: přepočtený = pouze plné úvazky
 DESCRIBE czechia_payroll_industry_branch;
 -- code: A-S = name: <vypsaný obor>
 
@@ -48,7 +48,6 @@ DESCRIBE czechia_price_category;
 -- price_value -> 0.5, 0.75, 1, 10, 150
 -- price_unit -> kg, l, ks, g
 
-
 /*
 Číselníky sdílených informací o ČR:
 1.	czechia_region – Číselník krajů České republiky dle normy CZ-NUTS 2.
@@ -58,6 +57,11 @@ Dodatečné tabulky:
 1.	countries - Všemožné informace o zemích na světě, například hlavní město, měna, národní jídlo nebo průměrná výška populace.
 2.	economies - HDP, GINI, daňová zátěž, atd. pro daný stát a rok.
 */
+
+DESCRIBE economies;
+-- country
+-- year
+-- GDP
 
 /*
 Výstup: 

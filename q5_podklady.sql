@@ -209,11 +209,17 @@ SELECT
 	AVG(vliv_HDP_vs_mzdy_rok_c) AS avg_vliv_HDP_vs_mzdy_rok_c
 FROM celkove_srovnani_avg_vliv;
 
-
 -- ODPOVĚĎ NA VÝZKUMNOU OTÁZKU
 -- 5. Má výška HDP vliv na změny ve mzdách a cenách potravin? Neboli, pokud HDP vzroste výrazněji v jednom roce, 
 -- projeví se to na cenách potravin či mzdách ve stejném nebo následujícím roce výraznějším růstem?
 
 /*
-Zvolíme-li jako dostatečně nízkou odchylku rozdíl o maximálně 3 procenta, 
+Zvolíme-li dostatečně nízkou odchylku (rozdíl o maximálně 3 procenta), pozorujeme, že změny v HDP
+korelují více se změnami ve mzdách než se změnami cen. 
+U mezd pozorujeme výraznější korelaci s ročním odstupem,
+tzn. změna HDP v jednom roce koreluje výrazněji se změnou mezd v následujícím roce než ve shodném roce.
+Výrazná korelace změn v HDP a změn v cenách se neprokázala, a to ani ve shodném roce, 
+ani když porovnáváme rozdíl HDP z jednoho roku s rozdílem cen z následujícícho roku.
+Může to být způsobeno příliž nízko zvolenou odchylkou (rozdíl o maximálně 3 procenta), 
+ale také opravdu nižší korelací mezi porovnávanými hodnotami.
 */

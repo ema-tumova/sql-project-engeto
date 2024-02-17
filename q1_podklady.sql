@@ -80,7 +80,7 @@ WHERE calculation_code = 200
 	AND value_type_code = 5958
 GROUP BY industry_branch_code, rok_a.payroll_year;
 
--- Sloupec určující, zde se jedná o růst, teď musím využít pro porovnání růstů mezi jednotlivými odvětvými.
+-- Sloupec určující, zda se jedná o růst, teď musím využít pro porovnání růstů mezi jednotlivými odvětvími.
 -- Protože už je SQL zápis delší a komplikovaný, vytvořím si VIEW (mezirocni_porovnani_mezd_cr), 
 -- abych si ze záznamů jednoduše a rychle vytáhla jen informace o růstu podle odvětví.
 CREATE VIEW mezirocni_porovnani_mezd_cr AS
@@ -115,7 +115,7 @@ GROUP BY industry_branch_code, rok_a.payroll_year);
 
 -- Porovnám hromadně růst/pokles mezd mezi jednotlivými odvětvými.
 
--- Zajímá mě klesání mzdy, nejen nerůst.
+-- Zajímá mě i klesání mzdy, nejen nerůst.
 -- Zkontroluji tedy, že ve sloupci meziroční_rozdíl není hodnota 0.
 SELECT 
 	branch,

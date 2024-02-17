@@ -6,7 +6,6 @@
 -- U cen i mezd budu muset počítat s procentuálním rozdílem, nikoli pouze s meziročním rozdílem hodnot.
 -- Poté budu porovnávat meziroční percentuální růsty cen a meziroční percentuální růsty mezd.
 
-
 -- Hodnoty prům. mezd a jejich meziroční růst:
 -- Oproti původnímu VIEWu mezirocni_porovnani_mezd_cr z otázky 1 zde nechci zohledňovat obor.
 -- Použiju tedy pouze sloupce roků a sloupce průměrů průměrných mezd

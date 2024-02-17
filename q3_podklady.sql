@@ -4,7 +4,7 @@
 -- PŘEDBĚŽNÝ PLÁN:
 -- Budu používat tabulku czechia_price.
 -- Potřebuji zjistit meziroční růst průměrných cen potravin podle kategorií potravin.
--- Tento rozdíl musím poté ještě přepočíat na meziroční procentní rozdíl.
+-- Tento rozdíl musím poté ještě přepočítat na meziroční procentní rozdíl.
 -- Poté vyfiltruju přes WHERE pouze hodnoty rozdílu větší než 0 (chci pouze růst, ne pokles).
 -- Nakonec data seřadím vzestupně podle hodnot meziročního procentního růstu
 -- a omezím (LIMIT) pouze na první (a tedy nejnižší) záznam.
