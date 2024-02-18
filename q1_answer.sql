@@ -1,15 +1,5 @@
 -- Q1: Rostou v průběhu let mzdy ve všech odvětvích, nebo v některých klesají?
 
--- Filtuju data z primární tabulky pouze na data o mzdách (kategorie = 'mzda').
--- Tabulku napojím samu na sebe JOINem pro zíkání meziročního porovnání (pf1.rok = pf2.rok - 1).
--- Zobrazím pouze sloupce, které jsou důležité a vhodně je pojmenuju.
--- Vytvořím sloupec pro výpočet meziročního rozdílu hodnot.
--- Vytvořím CASE sloupec 'rust' pro ověření, zda hodnota meziročně vzrostla (1) nebo klesla (0).
--- Nejdříve ale ověřím, že neexistuje záznam s nulovým meriročním rozdílem (ani pokles, ani růst).
--- Zjistím to pomocí WHERE klauzule (WHERE pf2.prum_hodnota - pf1.prum_hodnota = 0).
--- Žádný takový záznam nebyl nalezen, pokračuji tedy přidáním CASE sloupce 'rust'.
--- Vytvořím si VIEW, které bude podkladem pro finální zobrazení dat a odpověď.
-
 CREATE VIEW IF NOT EXISTS mezirocni_rust_mzdy
 AS
 	(SELECT
@@ -34,10 +24,6 @@ AS
 			AND pf1.kategorie = 'mzda'
 			AND pf1.kod_podkategorie = pf2.kod_podkategorie)
 ;
-
--- Data z view 'mezirocni_rust_mzdy' seskupím podle odvětví.
--- V novém CASE sloupci uvedu, kolikrát mzda meziročně poklesla.
--- Data seřadím podle počtu let s poklesem prům. mzdy.
 
 SELECT
 	nazev_podkategorie,

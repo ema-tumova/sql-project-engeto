@@ -2,33 +2,6 @@
 -- Neboli, pokud HDP vzroste výrazněji v jednom roce,
 -- projeví se to na cenách potravin či mzdách ve stejném nebo následujícím roce výraznějším růstem?
 
--- Porovnávám percentuální meziroční rozdíl pro ceny, mzdy a HDP.
-
--- Pro data o mzdách a cenách použiju výsledné zobrazení dat z předchozí otázky,
--- ale zobrazím pouze potřebné minimum.
-SELECT
-	mzdy.rok_a,
-	mzdy.rok_b,
-	mzdy.mezirocni_percent_rozdil_prum_mzdy,
-	ceny.prum_mezirocni_percent_rozdil_cen
-FROM
-	(SELECT
-		rok_a,
-		rok_b,
-		ROUND(AVG(mezirocni_percent_rozdil), 4) AS prum_mezirocni_percent_rozdil_cen
-	FROM rozdily_ceny
-	GROUP BY 
-		rok_a)
-	AS ceny
-JOIN
-	rozdily_mzdy AS mzdy
-ON
-	ceny.rok_a = mzdy.rok_a
-;
-
--- Pro data o HDP použiju sekundární tabulku. Vyberu sloupce rok a HDP pro ČR.
--- Pro meziroční srovnání HDP JOINuju tabulku samu na sebe a přidám sloupec s meziročním rozdílem HDP.
--- Vytvořím VIEW pro jednodušší následnou manipulaci s daty.
 CREATE VIEW IF NOT EXISTS rozdily_HDP
 AS
 	(SELECT
@@ -57,9 +30,6 @@ AS
 		rok_a.rok = rok_b.rok - 1)
 ;
 
--- Spojím data o cenách a mzdách s daty o HDP.
--- Data budu potřebovat napojit samy na sebe, abych získala ještě další srovnání ob rok,
--- vytvořím si tedy nové VIEW pro jednodušší spojení.
 CREATE VIEW IF NOT EXISTS ceny_mzdy_hdp
 AS
 	(SELECT
@@ -85,12 +55,7 @@ AS
 		ON ceny.rok_a = hdp.rok_a)
 ;
 
--- Napojím data samy na sebe pro srovnání ob rok.
--- Vytvořím 4 sloupce:
--- meziroční rozdíl HDP vs. meziroční rozdíl cen/mezd ve stejném a v následujícím roce.
--- Počítám absolutní hodnotu rozdílu, protože nechci, aby záleželo na pořadí porovnávaných položek.
--- Chci dostat absolutní 'vzdálenost' rozdílů.
--- Vytvořím VIEW, abych mohla jednoduše filtrovat data a přitom neztratila ta, co se mohou ještě hodit.
+-- Při porovnávání rozdílů dvou ukazatelů (ceny vs. HDP nebo mzdy vs. HDP) zobrazuji absolutní hodnotu ('vzdálenost') rozdílu.
 CREATE VIEW IF NOT EXISTS ceny_mzdy_hdp_korelace
 AS 
 	(SELECT
@@ -119,12 +84,8 @@ AS
 		roky_ab.rok_b = rok_c.rok_a)
 ;
 
--- Je otázka, co můžeme považovat za výrazný vliv.
--- Zde budu za korelující považovat hodnoty lišící se maximálně o 3 %.
--- Vytvořím 4 podmínkové sloupce pro 4 dříve vytvořené sloupce.
--- Budou značit, zda je absolutní rozdíl hodnot nižší než 3 % (1) nebo vyšší (0).
--- Vytvořím 2 další podmínkové sloupce, abych zjistila,
--- zda hodnoty korelují více ve stejném roce (1) nebo ob rok (0).
+-- Sloupce končící '_mene_nez_3' značí, zda je absolutní rozdíl hodnot nižší než 3 % (1) nebo vyšší (0).
+-- Sloupce končící '_vice_stejny_rok' značí, zda hodnoty korelují více ve stejném roce (1) nebo ob rok (0).
 SELECT 
 	rok_a,
 	rok_b,
@@ -142,8 +103,7 @@ SELECT
 FROM
 	ceny_mzdy_hdp_korelace;
 
-
--- Data zprůměruju, abych získala celkový přehled.
+-- Celkový přehled - zprůměrovaná data:
 SELECT 
 	AVG(hdp_ab_vs_ceny_ab) AS avg_hdp_ab_vs_ceny_ab,
 	AVG(IF (hdp_ab_vs_ceny_ab < 3, 1, 0)) AS avg_hdp_ab_vs_ceny_ab_mene_nez_3,
@@ -169,7 +129,7 @@ než ve shodném roce (průměrná odchylka 2,41 %).
 
 Korelace změn HDP a změn cen je nižší.
 Ve stejném roce je tato korelace o něco vyšší (průměrná odchylka 4,09 %),
-než když porovnáváme meziroční rozdíl HDP v jednom roce s meziročním rozdílem cen v následujícícm roce
+než když porovnáváme meziroční rozdíl HDP v jednom roce s meziročním rozdílem cen v následujícím roce
 (průměrná odchylka 4,66 %).
 
 Zvolme maximální odchylku např. 3 % (od hranice 3 % a výše už nepovažujeme hodnoty za korelaci):

@@ -1,12 +1,5 @@
 -- Q4: Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?
 
--- Nejdřív zpracuji zvlášť data mezd a cen.
-
--- MZDY:
--- Seskupím podle roku, bez ohledu na odvětví. Zaokrouhlím.
--- JOINem získám možnost meziročního srovnání.
--- Přidám sloupec se zaokrouhleným meziročním rozdílem v procentech.
--- Vytvořím VIEW, aby se data později jednodušeji spojovala s daty o cenách.
 CREATE VIEW IF NOT EXISTS rozdily_mzdy
 AS
 	(SELECT
@@ -38,15 +31,6 @@ AS
 	ON 
 		rok_a.rok = rok_b.rok - 1)
 ;
-
--- CENY:
--- Postupuji podobně jako u mezd.
--- Nevypočítám ale průměrnou cenu zprůměrováním cen pro jednotlivé kategorie potravin v jednom roce.
--- Tím bych získala průměrnou cenu za jednu imaginární potravinu pro dané roky, což nedává smysl.
--- Prvně data JOINuju.
--- JOINovaná data porovnám, stále utříděná podle roků i kategorií potravin,
--- a vypočítám meziroční rozdíl cen v procentech.
--- Vytvořím VIEW pro další zpracování dat.
 
 CREATE VIEW IF NOT EXISTS rozdily_ceny 
 AS
@@ -81,23 +65,6 @@ AS
 		rok_a.rok = rok_b.rok - 1
 		AND rok_a.kod_podkategorie = rok_b.kod_podkategorie)
 ;
-
--- Až poté seskupím data po letech a vypočítám meziroční průměrný rozdíl cen v procentech
--- zprůměrováním hodnot percentuálních rozdílů všech kategorií za daný rok.
--- Získám tak přesnější průměrný meziroční percentuální rozdíl cen v daném roce.
-SELECT
-	rok_a,
-	rok_b,
-	ROUND(AVG(mezirocni_percent_rozdil), 4) AS prum_mezirocni_percent_rozdil_cen
-FROM rozdily_ceny
-GROUP BY 
-	rok_a;
-
--- Sloučím data o percentuálních rozdílech ve mzdách a cenách.
--- Přidám sloupec s rozdílem meziročních percentuálních rozdílů cen a mezd,
--- abych zjistila, zda někdy ceny potravin vzrostly meziročně výrazněji než mzdy (více než 10% rozdíl).
--- Pro přehlednost přidám CASE sloupec udávající, zda tento výrazný rozdíl nastal (1) nebo ne (0)
--- a seřadím data podle sloupce s rozdílem.
 
 SELECT
 	mzdy.rok_a,
