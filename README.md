@@ -14,5 +14,3 @@ Final SQL project for a data analysis course with Engeto
 - Take a look at the source data (primary and secondary table).
 - See answers to the research questions.
 - If you are interested in the detailed steps taken during the creation of this project, go to documentation. You will find commented SQL files there (general comments about preparation and creation of this project, but also commented SQL scripts: for primary and secondary table and for Q1-Q5 answers).
-
-**Discord name**: ema.ma.mamu
